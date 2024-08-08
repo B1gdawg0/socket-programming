@@ -8,6 +8,7 @@ HEADER = 32
 FORMAT = 'utf-8'
 
 LOGIN = 800
+LOGOUT = 801
 REGISTER = 802
 DISCONNECT = 803
 ORDER = 804
@@ -80,12 +81,22 @@ def handle_client(client_sk: sk.socket, addr):
                     msg_len = int(msg_len)
                     command_status, command, data = parse_request(client_sk.recv(msg_len).decode(FORMAT))
 
+                    if command_status == LOGOUT:
+                        send_message(client_sk,202)
+                        print(f"[{strftime('%Y-%m-%d %H:%M:%S', gmtime())}] {username} Logged out")
+                        print(f"[Action] Sent status 202 User logout to {addr}")
+                        if username:
+                            del clients[username]
+                        username = None
+                        continue
+
                     if command_status == DISCONNECT:
                         send_message(client_sk, 202)
                         connected = False
                         if username:
                             del clients[username]
                         print(f"[{strftime('%Y-%m-%d %H:%M:%S', gmtime())}] {username} disconnected")
+                        username = None
                         continue
 
                     if username is None:
