@@ -118,7 +118,6 @@ class KFCClient:
         if response_len:
             response_len = int(response_len)
             code, status_message, data = parse_message(self.client_sk.recv(response_len).decode(FORMAT))
-            print(code)
 
         if code == REGISTER_SUCCESS:
             print(f"[{code}] {status_message}: Registration successful!")
