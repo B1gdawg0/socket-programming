@@ -39,19 +39,19 @@ class KFCClient:
                 msg_len = int(msg_len)
                 code, status_message, data = parse_message(self.client_sk.recv(msg_len).decode(FORMAT))
                 if code == USER_LOGOUT:
-                    print(f"[{code} {status_message}]: Logout request successful!")
+                    print(f"[{code} {status_message}] Logout request successful!")
                     break
 
                 elif code == OK: 
                     if "Order received" in data:
-                        print(f"[{code} {status_message}]: Your order has been received!")
+                        print(f"[{code} {status_message}] Your order has been received!")
                     elif "Available discounts" in data:
-                        print(f"[{code} {status_message}]: Available discounts request successful!")
+                        print(f"[{code} {status_message}] Available discounts request successful!")
                         discounts = data.split("Available discounts: ")[1].split(", ")
                         for discount in discounts:
                             print(f'-> {discount}')
                     elif "Menu" in data:
-                        print(f"[{code} {status_message}]: Menu request successful!")
+                        print(f"[{code} {status_message}] Menu request successful!")
                         content = data.split("Menu: ")[1].strip()
                         items = content.split(", ")
 
@@ -80,13 +80,13 @@ class KFCClient:
                         print(f"[{code} {status_message}] Cash out request successful!")
 
                     else:
-                        print(f"[{code} {status_message}]: Something went wrong!")
+                        print(f"[{code} {status_message}] Something went wrong!")
                 elif code == MENU_NOT_FOUND:
-                    print(f"[{code} {status_message}]: Menu item does not exist. Please try again with a valid number.")
+                    print(f"[{code} {status_message}] Menu item does not exist. Please try again with a valid number.")
                 elif code == INVALID_DISCOUNT:
-                    print(f"[{code} {status_message}]: Invalid discount. Please try another discount code.")
+                    print(f"[{code} {status_message}] Invalid discount. Please try another discount code.")
                 else:
-                    print(f"[{code} {status_message}]: Something went wrong!")
+                    print(f"[{code} {status_message}] Something went wrong!")
             else:
                 break
 
@@ -102,12 +102,12 @@ class KFCClient:
             print(code)
 
         if code == OK:
-            print(f"[{code}] {status_message}: Login successful!")
+            print(f"[{code} {status_message}] Login successful!")
             recv_thread = threading.Thread(target=self.receive)
             recv_thread.start()
             self.user_menu()
         else:
-            print(f"[{code}] {status_message}: Login failed!")
+            print(f"[{code} {status_message}] Login failed!")
 
     def register(self):
         username = input("Enter username: ").strip()
@@ -120,11 +120,11 @@ class KFCClient:
             code, status_message, data = parse_message(self.client_sk.recv(response_len).decode(FORMAT))
 
         if code == REGISTER_SUCCESS:
-            print(f"[{code}] {status_message}: Registration successful!")
+            print(f"[{code} {status_message}] Registration successful!")
         elif code == USERNAME_ALREADY_USE:
-            print(f"[{code}] {status_message}: This username is already in use. Please try another username.")
+            print(f"[{code} {status_message}] This username is already in use. Please try another username.")
         else:
-            print(f"[{code}] {status_message}: Registration failed!")
+            print(f"[{code} {status_message}] Registration failed!")
 
     def user_menu(self):
         while True:
@@ -176,7 +176,7 @@ class KFCClient:
                 print("Invalid option. Please try again.")
 
     def start(self):
-        print("Welcome to online KFC ordering. Login to order now!")
+        print("Welcome to KFC online ordering. Login to order now!")
         while True:
             time.sleep(0.3)
             auth = input("Do you already have an account? Y/N/Q (Y = Yes, N = No, Q = Quit): ").strip().upper()
