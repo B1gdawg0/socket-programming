@@ -1,0 +1,4 @@
+ABC:10
+Get 10% off with the ABC code! Use it now!
+DDD:30
+Enjoy a 30% discount with the DDD code! This is our top offer—don’t miss it!
